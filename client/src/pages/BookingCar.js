@@ -86,29 +86,31 @@ function BookingCar({ match }) {
             format="MMM DD yyyy HH:mm"
             onChange={selectTimeSlots}
           />
-          <div>
-            <p>
-              Total Hours : <b>{totalHours}</b>
-            </p>
-            <p>
-              Rent Per Hour : <b>{car.rentPerHour}</b>{" "}
-            </p>
-            <Checkbox
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setdriver(true);
-                } else {
-                  setdriver(false);
-                }
-              }}
-            >
-              Driver Required
-            </Checkbox>
-            <h3>Total Amount : {totalAmount}</h3>
-            <button className="btn1" onClick={bookNow}>
-              Book Now
-            </button>
-          </div>
+          {from && to && (
+            <div>
+              <p>
+                Total Hours : <b>{totalHours}</b>
+              </p>
+              <p>
+                Rent Per Hour : <b>{car.rentPerHour}</b>{" "}
+              </p>
+              <Checkbox
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setdriver(true);
+                  } else {
+                    setdriver(false);
+                  }
+                }}
+              >
+                Driver Required
+              </Checkbox>
+              <h3>Total Amount : {totalAmount}</h3>
+              <button className="btn1" onClick={bookNow}>
+                Book Now
+              </button>
+            </div>
+          )}
         </Col>
       </Row>
     </DefaultLayout>
