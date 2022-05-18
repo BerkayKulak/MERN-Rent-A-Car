@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import BookingCar from "./pages/BookingCar";
 import "antd/dist/antd.css";
+import UserBookings from "./pages/UserBookings";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" exact component={Login} />
         <Route path="/register" exact component={Register} />
         <ProtectedRoute path="/booking/:carid" exact component={BookingCar} />
+        <ProtectedRoute path='/userbookings' exact component={UserBookings} />
       </BrowserRouter>
     </div>
   );
