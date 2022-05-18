@@ -1,17 +1,23 @@
 import React from "react";
 import { Row, Col, Form, Input } from "antd";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userRegister } from "../redux/actions/userActions";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You c
+import Spinner from "../components/Spinner";
 
+AOS.init();
 function Register() {
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.alertsReducer);
   function onFinish(values) {
     dispatch(userRegister(values));
     console.log(values);
   }
   return (
     <div className="login">
+      {loading && <Spinner />}
       <Row gutter={16} className="d-flex align-items-center">
         <Col span={16} style={{ position: "relative" }}>
           <img
