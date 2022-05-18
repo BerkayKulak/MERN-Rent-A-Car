@@ -1,10 +1,12 @@
-import { Col, Row, Divider, DatePicker } from "antd";
+import { Col, Row, Divider, DatePicker, Checkbox } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DefaultLayout from "../components/DefaultLayout";
 import Spinner from "../components/Spinner";
 import { getAllCars } from "../redux/actions/carsActions";
 import moment from "moment";
+import { bookCar } from "../redux/actions/bookingActions";
+
 const { RangePicker } = DatePicker;
 
 function BookingCar({ match }) {
@@ -15,6 +17,8 @@ function BookingCar({ match }) {
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
   const [totalHours, setTotalHours] = useState(0);
+  const [driver, setdriver] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     if (cars.length === 0) {
@@ -24,10 +28,33 @@ function BookingCar({ match }) {
     }
   }, [cars]);
 
+  useEffect(() => {
+    setTotalAmount(totalHours * car.rentPerHour);
+    if (driver) {
+      setTotalAmount(totalAmount + 30 * totalHours);
+    }
+  }, [driver, totalHours]);
+
   function selectTimeSlots(values) {
     setFrom(moment(values[0]).format("MMM DD yyyy HH:mm"));
     setTo(moment(values[1]).format("MMM DD yyyy HH:mm"));
     setTotalHours(values[1].diff(values[0], "hours"));
+  }
+
+  function bookNow() {
+    const reqObj = {
+      user: JSON.parse(localStorage.getItem("user"))._id,
+      car: car._id,
+      totalHours,
+      totalAmount,
+      driverRequire: driver,
+      bookedTimeSlots: {
+        from,
+        to,
+      },
+    };
+
+    dispatch(bookCar(reqObj));
   }
 
   return (
@@ -59,7 +86,29 @@ function BookingCar({ match }) {
             format="MMM DD yyyy HH:mm"
             onChange={selectTimeSlots}
           />
-          {totalHours}
+          <div>
+            <p>
+              Total Hours : <b>{totalHours}</b>
+            </p>
+            <p>
+              Rent Per Hour : <b>{car.rentPerHour}</b>{" "}
+            </p>
+            <Checkbox
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setdriver(true);
+                } else {
+                  setdriver(false);
+                }
+              }}
+            >
+              Driver Required
+            </Checkbox>
+            <h3>Total Amount : {totalAmount}</h3>
+            <button className="btn1" onClick={bookNow}>
+              Book Now
+            </button>
+          </div>
         </Col>
       </Row>
     </DefaultLayout>
