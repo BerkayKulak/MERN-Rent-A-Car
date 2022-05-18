@@ -1,4 +1,4 @@
-import { Col, Row, Divider, DatePicker, Checkbox } from "antd";
+import { Col, Row, Divider, DatePicker, Checkbox, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DefaultLayout from "../components/DefaultLayout";
@@ -19,6 +19,7 @@ function BookingCar({ match }) {
   const [totalHours, setTotalHours] = useState(0);
   const [driver, setdriver] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (cars.length === 0) {
@@ -86,6 +87,15 @@ function BookingCar({ match }) {
             format="MMM DD yyyy HH:mm"
             onChange={selectTimeSlots}
           />
+          <br />
+          <button
+            className="btn1 mt-2"
+            onClick={() => {
+              setShowModal(true);
+            }}
+          >
+            See Booked Slots
+          </button>
           {from && to && (
             <div>
               <p>
@@ -112,6 +122,35 @@ function BookingCar({ match }) {
             </div>
           )}
         </Col>
+        {car.name && (
+          <Modal
+            visible={showModal}
+            closable={false}
+            footer={false}
+            title="Booked time slots"
+          >
+            <div className="p-2">
+              {car.bookedTimeSlots.map((slot) => {
+                return (
+                  <button className="btn1 mt-2">
+                    {slot.from} - {slot.to}
+                  </button>
+                );
+              })}
+
+              <div className="text-right mt-5">
+                <button
+                  className="btn1"
+                  onClick={() => {
+                    setShowModal(false);
+                  }}
+                >
+                  CLOSE
+                </button>
+              </div>
+            </div>
+          </Modal>
+        )}
       </Row>
     </DefaultLayout>
   );
