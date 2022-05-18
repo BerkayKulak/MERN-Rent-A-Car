@@ -8,7 +8,7 @@ router.post("/bookcar", async (req, res) => {
   try {
     const newBooking = new Booking(req.body);
     await newBooking.save();
-    const car = await Car.findOne({ _id: req.body.car.toString() });
+    const car = await Car.findOne({ _id: req.body.car });
 
     car.bookedTimeSlots.push(req.body.bookedTimeSlots);
     await car.save();
