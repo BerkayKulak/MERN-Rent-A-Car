@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner";
 import { getAllCars } from "../redux/actions/carsActions";
 import moment from "moment";
 import { bookCar } from "../redux/actions/bookingActions";
+import StripeCheckout from "react-stripe-checkout";
 
 const { RangePicker } = DatePicker;
 
@@ -42,8 +43,9 @@ function BookingCar({ match }) {
     setTotalHours(values[1].diff(values[0], "hours"));
   }
 
-  function bookNow() {
+  function onToken(token) {
     const reqObj = {
+      token,
       user: JSON.parse(localStorage.getItem("user"))._id,
       car: car._id,
       totalHours,
@@ -116,9 +118,16 @@ function BookingCar({ match }) {
                 Driver Required
               </Checkbox>
               <h3>Total Amount : {totalAmount}</h3>
-              <button className="btn1" onClick={bookNow}>
-                Book Now
-              </button>
+
+              <StripeCheckout
+                shippingAddress
+                token={onToken}
+                currency="inr"
+                amount={totalAmount * 100}
+                stripeKey="pk_test_51IuZTULjHP9VtxkS8sqmlLzWmiB66yLi7CCVqHhfKJr7AlWoxyjQI14uzqe69G9eKYeJb2vONsJLomIStkbIl7hE00WXmhYdEr"
+              >
+                <button className="btn1">Book Now</button>
+              </StripeCheckout>
             </div>
           )}
         </Col>
