@@ -13,21 +13,18 @@ function App() {
         <ProtectedRoute path="/" exact component={Home} />
         <Route path="/login" exact component={Login} />
         <Route path="/register" exact component={Register} />
-        <ProtectedRoute path="/bookingcar" exact component={BookingCar} />
+        <ProtectedRoute path="/booking/:carid" exact component={BookingCar} />
       </BrowserRouter>
     </div>
   );
 }
 
-
-
 export default App;
 
-export function ProtectedRoute(props){
-  if(localStorage.getItem("user")){
-    return <Route {...props} />
-  }
-  else{
-    return <Redirect to="/login" />
+export function ProtectedRoute(props) {
+  if (localStorage.getItem("user")) {
+    return <Route {...props} />;
+  } else {
+    return <Redirect to="/login" />;
   }
 }
