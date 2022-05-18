@@ -24,10 +24,51 @@ export const addCar = (reqObj) => async (dispatch) => {
     dispatch({ type: "LOADING", payload: false });
     message.success("New car added successfully");
     setTimeout(() => {
-      window.location.href = "/admin";
+      window.location.href = "/";
     }, 500);
   } catch (error) {
     console.log(error);
     dispatch({ type: "LOADING", payload: false });
   }
 };
+
+
+export const editCar=(reqObj)=>async (dispatch)=>{
+
+  dispatch({type: 'LOADING' , payload:true})
+
+  try {
+       await axios.post('http://localhost:5000/api/cars/editcar' , reqObj)
+     
+       dispatch({type: 'LOADING' , payload:false})
+       message.success('Car details updated successfully')
+       setTimeout(() => {
+          window.location.href='/admin'
+       }, 500);
+  } catch (error) {
+      console.log(error)
+      dispatch({type: 'LOADING' , payload:false})
+  }
+    
+
+}
+
+export const deleteCar=(reqObj)=>async dispatch=>{
+
+  dispatch({type: 'LOADING' , payload:true})
+
+  try {
+       await axios.post('http://localhost:5000/api/cars/deletecar' , reqObj)
+     
+       dispatch({type: 'LOADING' , payload:false})
+       message.success('Car deleted successfully')
+       setTimeout(() => {
+          window.location.reload()
+       }, 500);
+  } catch (error) {
+      console.log(error)
+      dispatch({type: 'LOADING' , payload:false})
+  }
+    
+
+}

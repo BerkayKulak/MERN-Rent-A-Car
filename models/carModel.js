@@ -8,8 +8,8 @@ const carSchema = new mongoose.Schema(
     fuelType: { type: String, required: true },
     bookedTimeSlots: [
       {
-        from: { type: String, required: true },
-        to: { type: String, required: true },
+        from: { type: String },
+        to: { type: String },
       },
     ],
 
@@ -17,6 +17,5 @@ const carSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
 const carModel = mongoose.model("cars", carSchema);
 module.exports = carModel;
