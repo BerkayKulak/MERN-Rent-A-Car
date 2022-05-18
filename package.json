@@ -4,13 +4,16 @@
   "description": "rent-a-car",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "berkay",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
-    "mongoose": "^6.3.3",
+    "mongoose": "^6.3.3"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.16"
   }
 }
