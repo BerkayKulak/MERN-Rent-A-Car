@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import DefaultLayout from "../components/DefaultLayout";
 import { getAllCars } from "../redux/actions/carsActions";
-import { Button, Col, Row, Divider, DatePicker, Checkbox } from "antd";
-import Spinner from "../components/Spinner";
+import { Col, Row, Divider, DatePicker, Checkbox } from "antd";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 import moment from "moment";
-
 const { RangePicker } = DatePicker;
-
 function Home() {
   const { cars } = useSelector((state) => state.carsReducer);
   const { loading } = useSelector((state) => state.alertsReducer);
-  const [totalCars, setTotalCars] = useState([]);
+  const [totalCars, setTotalcars] = useState([]);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getAllCars());
   }, []);
 
   useEffect(() => {
-    setTotalCars(cars);
-  }, []);
+    setTotalcars(cars);
+  }, [cars]);
 
   function setFilter(values) {
     var selectedFrom = moment(values[0], "MMM DD yyyy HH:mm");
@@ -45,7 +44,8 @@ function Home() {
         }
       }
     }
-    setTotalCars(temp);
+
+    setTotalcars(temp);
   }
 
   return (
@@ -59,18 +59,22 @@ function Home() {
           />
         </Col>
       </Row>
-      {loading === true && <Spinner />}
+
+      {loading == true && <Spinner />}
+
       <Row justify="center" gutter={16}>
         {totalCars.map((car) => {
           return (
             <Col lg={5} sm={24} xs={24}>
               <div className="car p-2 bs1">
                 <img src={car.image} className="carimg" />
+
                 <div className="car-content d-flex align-items-center justify-content-between">
-                  <div>
+                  <div className="text-left pl-2">
                     <p>{car.name}</p>
-                    <p>{car.rentPerHour} Rent Per Hour</p>
+                    <p> Rent Per Hour {car.rentPerHour} /-</p>
                   </div>
+
                   <div>
                     <button className="btn1 mr-2">
                       <Link to={`/booking/${car._id}`}>Book Now</Link>

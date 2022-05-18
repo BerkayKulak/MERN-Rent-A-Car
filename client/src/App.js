@@ -7,7 +7,8 @@ import BookingCar from "./pages/BookingCar";
 import "antd/dist/antd.css";
 import UserBookings from "./pages/UserBookings";
 import AddCar from "./pages/AddCar";
-
+import AdminHome from "./pages/AdminHome";
+import EditCar from "./pages/EditCar";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <ProtectedRoute path="/booking/:carid" exact component={BookingCar} />
         <ProtectedRoute path="/userbookings" exact component={UserBookings} />
         <ProtectedRoute path="/addcar" exact component={AddCar} />
+        <ProtectedRoute path="/editcar/:carid" exact component={EditCar} />
+        <ProtectedRoute path="/admin" exact component={AdminHome} />
       </BrowserRouter>
     </div>
   );
